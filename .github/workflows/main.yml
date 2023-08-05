@@ -1,16 +1,24 @@
 name: Deploy to Server
+on:
+  push:
+    branches:
+      - main
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v3
-    - name: rsync deployments
-      uses: burnett01/rsync-deployments@6.0.0
-      with:
-        switches: -avzr --delete
-        path: ./
-        remote_path: /home/ubuntu/web/manuals
-        remote_host: ${{ secrets.SERVER_HOST }}
-        remote_port: ${{ secrets.SERVER_PORT }}
-        remote_user: ${{ secrets.SERVER_USERNAME }}
-        remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Deploy to server
+        run: |
+          chmod +x deploy.sh
+          ./deploy.sh
+        env:
+          DEPLOY_HOST: ${{ secrets.SERVER_HOST }}
+          DEPLOY_USER: ${{ secrets.SERVER_USERNAME }}
+          DEPLOY_PORT: ${{ secrets.SERVER_PORT }}
+          DEPLOY_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          DEPLOY_PATH: /home/ubuntu/web/manuals
