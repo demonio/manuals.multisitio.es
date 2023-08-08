@@ -9,6 +9,4 @@ jobs:
   deploy-via-git:
     runs-on: ubuntu-20.04
     steps:
-      - name: Echo the message
-        run: |
-            echo "Hola caracola"
+      - uses: actions/checkout@v2
