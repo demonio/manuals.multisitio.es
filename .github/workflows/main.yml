@@ -26,5 +26,5 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_HOST: ${{ secrets.SERVER_HOST }}
 
-      - name: Clone Repo
-        run: ssh staging 'git clone git@github.com:demonio/manuals.multisitio.es.git'
+      - name: Check out the source
+        run: ssh staging 'cd /home/multisitio/web/manuals.multisitio.es && git fetch && git reset --hard origin/main'
