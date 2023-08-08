@@ -1,12 +1,14 @@
-name: Deploy via Git
-
-on:
-  push:
-    branches: 
-      - main
-    
+name: CI
+on: [push, pull_request]
 jobs:
-  deploy-via-git:
-    runs-on: ubuntu-20.04
+  # test:
+  #   ...
+  deploy:
+    name: "Deploy to staging"
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # needs: test
     steps:
-      - uses: actions/checkout@v2
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/lool
