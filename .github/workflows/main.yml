@@ -1,24 +1,14 @@
-name: Deploy via SFTP
+name: Deploy via Git
+
 on:
   push:
     branches: 
       - main
     
 jobs:
-  deploy-via-sftp:
-    runs-on: ubuntu-latest
+  deploy-via-git:
+    runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
-          
-      - name: SFTP Deploy
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.1
-        with:
-          username: ${{ secrets.SERVER_USERNAME }}
-          server: ${{ secrets.SERVER_HOST }}
-          port: ${{ secrets.SERVER_PORT }}
-          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-          local_path: ./*
-          remote_path: /home/ubuntu/web/manuals
-
-          args: '-o ConnectTimeout=5'
+      - name: Echo the message
+      run: |
+        echo "Hola caracola"
