@@ -3,8 +3,8 @@
  */
 class IndexController extends AppController
 {
+    # 0
     public function index()
     {
-        die('HOLA MUNDO');
     }
 }
