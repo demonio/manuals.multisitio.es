@@ -13,7 +13,7 @@
         </nav>
         <div class="table">
             <aside>
-                <?php View::partial('aside', false, ['list'=>Config::get("docs.$action_name.index"), 'titles'=>'h2']); ?>
+                <?php View::partial('aside', false, ['list'=>Config::get("docs.$action_name.index"), 'titles'=>Config::get("docs.$action_name.summary")]); ?>
             </aside>
             <main>
                 <?php View::content() ?>
