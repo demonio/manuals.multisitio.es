@@ -5,6 +5,6 @@ array_shift($list);
 foreach ($list as $block): ?>
     <details>
         <summary><?=explode("</$titles>", $block)[0]?></summary>
-        <?=explode("</$titles>", $block)[1]?>
+        <?=str_replace('<a ', '<a data-ajax="main"', explode("</$titles>", $block)[1])?>
     </details>
 <?php endforeach;

@@ -7,7 +7,8 @@ abstract class AppController extends Controller
     final protected function initialize()
     {
 		$this->version = '23';
-        View::template('docs');
+                
+        Input::isAjax() ? View::template(null) : View::template('docs');
     }
 
     final protected function finalize()
