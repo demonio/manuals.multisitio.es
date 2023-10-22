@@ -27,20 +27,37 @@ const Kumbia = {
     cRemote: function(event) {
         event.preventDefault();
         const el = event.target;
-        const rel = document.querySelector(el.getAttribute("data-ajax"));
+        const container = el.getAttribute("data-ajax");
         console.log(el.href);
-        if (rel) {
-            fetch(el.href, {
-                    method: 'GET',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                    }
-                })
-                .then((response) => response.text())
-                .then((data) => {
-                    rel.innerHTML = data;
-                });
+        history.pushState({ url: el.href, container: container }, '', el.href);
+        if (container) {
+            Kumbia.go(el.href, container);
         }
+    },
+
+    // Hace un fetch
+    go: function(url, container) {
+        const rel = document.querySelector(container);
+        fetch(url, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                }
+            })
+            .then((response) => response.text())
+            .then((data) => {
+                rel.innerHTML = data;
+            });
+    },
+
+    // Método popstate para manejar eventos de cambio de estado del historial
+    popstate: function() {
+        window.addEventListener('popstate', function(event) {
+            if (event.state && event.state.url) {
+                // Carga el contenido correspondiente cuando se navega hacia atrás o adelante en el historial
+                Kumbia.go(event.state.url, event.state.container);
+            }
+        });
     },
 
     // Carga contenido con AJAX y confirmación
@@ -147,39 +164,6 @@ const Kumbia = {
         });
     },
 
-    // Carga y enlaza Unobtrusive DatePicker en caso de ser necesario
-    bindDatePicker: function() {
-        const inputs = document.querySelectorAll("input.js-datepicker");
-
-        const bindInputs = function() {
-            inputs.forEach((input) => {
-                const opts = { monthSelector: true, yearSelector: true };
-                const dateMin = input.getAttribute("min");
-                if (dateMin !== null) {
-                    opts.dateMin = dateMin.split("-");
-                }
-                const dateMax = input.getAttribute("max");
-                if (dateMax !== null) {
-                    opts.dateMax = dateMax.split("-");
-                }
-                input.pickadate(opts);
-            });
-        };
-
-        if (typeof pickadate !== "undefined") {
-            return bindInputs();
-        }
-
-        const head = document.querySelector("head");
-        head.innerHTML += '<link href="' + Kumbia.publicPath + 'css/pickadate.css" rel="stylesheet"/>';
-
-        fetch(Kumbia.publicPath + 'javascript/jquery/pickadate.js')
-            .then((response) => response.text())
-            .then((data) => {
-                bindInputs();
-            });
-    },
-
     // Inicializa el plugin
     initialize: function() {
         const script = document.currentScript;
@@ -189,6 +173,7 @@ const Kumbia = {
         }
 
         Kumbia.bind();
+        Kumbia.popstate();
     },
 };
 
