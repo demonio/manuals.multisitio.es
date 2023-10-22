@@ -7,8 +7,8 @@ class DocsController extends AppController
     public function __call($name, $params)
     {
         array_unshift($params, $name);
-        $page = implode('/', $params);
-        $this->html = (new Docs)->read($page);
+        $this->page = implode('/', $params);
+        $this->html = (new Docs)->read($this->page);
         View::select('read');
     }
 }

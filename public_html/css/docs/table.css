@@ -1,0 +1,8 @@
+.table {
+    display: table;
+}
+
+.table>* {
+    display: table-cell;
+    padding: 0 20px 20px 0;
+}

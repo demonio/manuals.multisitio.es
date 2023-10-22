@@ -1,0 +1,10 @@
+<?php
+$action_name = View::getVar('action_name');
+$list = explode("<$titles>", (new Docs)->read($list));
+array_shift($list);
+foreach ($list as $block): ?>
+    <details>
+        <summary><?=explode("</$titles>", $block)[0]?></summary>
+        <?=explode("</$titles>", $block)[1]?>
+    </details>
+<?php endforeach;
