@@ -47,6 +47,7 @@ const Kumbia = {
             .then((response) => response.text())
             .then((data) => {
                 rel.innerHTML = data;
+                document.title = url.split('#')[0].split('/').slice(4).join(' » ');
             });
     },
 
